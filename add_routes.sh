@@ -17,7 +17,9 @@ if [ ! -f "ioc_hosts/${HUTCH}.txt" ]; then
 fi
 
 IOC_HOSTS=$(cat ioc_hosts/${HUTCH}.txt)
-PLCS=$(netconfig search ${PLC_MATCH} --brief | sort)
+PLCS=$(netconfig search ${PLC_MATCH} --brief | sort | tr '\r\n' ' ')
+
+echo "Found PLCs: $PLCS"
 
 for ioc_host in $IOC_HOSTS; do
     ioc_host_ip=$(dig +short ${ioc_host}.pcdsn)
@@ -29,7 +31,7 @@ for ioc_host in $IOC_HOSTS; do
         source /reg/g/pcds/pyps/conda/pcds_conda
         conda activate /cds/home/k/klauer/miniforge3/envs/py38
         set -x
-        for plc in "$PLCS"; do
+        for plc in $PLCS; do
             ads-async route --route-name="${ioc_host}" \${plc} ${ioc_host_net_id} ${ioc_host_ip};
         done
 EOF
