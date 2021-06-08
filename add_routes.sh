@@ -29,7 +29,6 @@ for ioc_host in $IOC_HOSTS; do
 
     ssh $ioc_host <<EOF
         source /reg/g/pcds/pyps/conda/pcds_conda
-        conda activate /cds/home/k/klauer/miniforge3/envs/py38
         set -x
         for plc in $PLCS; do
             ads-async route --route-name="${ioc_host}" \${plc} ${ioc_host_net_id} ${ioc_host_ip};
