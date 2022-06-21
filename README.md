@@ -46,3 +46,26 @@ Usage: ``./add_routes.sh hutch plc-hostname-match``
 * To add a route, the PLC must see a UDP packet come from the host
 * As such, the script will `ssh` to each of these hosts to send that packet
 * The library [``ads-async``](https://github.com/pcdshub/ads-async) is used to generate the "add route" request
+
+
+## What does "good" output look like?
+
+```bash
+$ ./add_routes.sh las plc-las-opcpa-eps-01
+* IOC host: ctl-las-ftl-srv01 (172.21.161.21) Net ID: 172.21.161.21.1.1
+
++ for plc in plc-las-opcpa-eps-01
++ ads-async route --route-name=ctl-las-ftl-srv01 plc-las-opcpa-eps-01 172.21.161.21.1.1 172.21.161.21
+{
+    "command_id": 6,
+    "source_net_id": "172.21.160.250.1.1",
+    "source_ams_port": 10000,
+    "source_addr": [
+        "172.21.160.250",
+        48899
+    ],
+    "unknown_response_id": 1,
+    "password_correct": true,
+    "authentication_error": false
+}
+```
